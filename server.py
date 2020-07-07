@@ -78,7 +78,7 @@ def add_source():
     result_set = []
     for entry in feed["entries"]:
         result_set.append(entry)
-    return result_set, 200
+    return json.dumps(result_set), 200
 
 @APP.route("/parse-source/", methods=["POST"])
 def parse_new_source():
