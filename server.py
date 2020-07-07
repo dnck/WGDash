@@ -34,16 +34,16 @@ def get_secrets():
     return {"weather_key": weather_key}
 
 # >> The application is a small service.
-APP = Flask(__name__)
+app = Flask(__name__)
 
-@APP.route("/news/", methods=["GET"])
+@app.route("/news/", methods=["GET"])
 def get_news():
     """route_endpoint
 
     >> The service accepts data from a GPS tracker device.
     >> In the beginning of a track, the service requests a route to be created...
     """
-    APP.logger.debug("News feeds requested.")
+    app.logger.debug("News feeds requested.")
     ALL_READER_RESULTS = []
     for reader in [
         rss_man.WashingtonPostParser(),
@@ -53,7 +53,7 @@ def get_news():
         ALL_READER_RESULTS += reader.result_set
     return json.dumps(ALL_READER_RESULTS), 200
 
-@APP.route("/weather/", methods=["GET"])
+@app.route("/weather/", methods=["GET"])
 def get_weather():
     key = get_secrets().get("weather_key")
     wm = weather_man.WeatherMan(key)
@@ -67,7 +67,7 @@ POST add new source
 update new source <-
 """
 
-@APP.route("/add-source/", methods=["POST"])
+@app.route("/add-source/", methods=["POST"])
 def add_source():
     source = request.args.get("url")
     print(source)
@@ -81,7 +81,7 @@ def add_source():
         result_set.append(entry)
     return json.dumps(result_set), 200
 
-@APP.route("/parse-source/", methods=["POST"])
+@app.route("/parse-source/", methods=["POST"])
 def parse_new_source():
     source = request.get_json()
     summary_field_key = source.get("summary_key")
@@ -91,7 +91,7 @@ def parse_new_source():
 
 
 
-@APP.route('/form-example', methods=['GET', 'POST']) #allow both GET and POST requests
+@app.route('/form-example', methods=['GET', 'POST']) #allow both GET and POST requests
 def form_example():
     if request.method == 'POST':  #this block is only entered when the form is submitted
         language = request.form.get('language')
@@ -109,4 +109,4 @@ def form_example():
 
 
 if __name__ == "__main__":
-    APP.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=True)

@@ -5,11 +5,11 @@ help:
 	@echo "    make all                                     Build and run the image/container."
 
 
-# Docker wgdash server
+# Docker WGDash server
 build-image:
 	docker build -t wgdash .
 
 run-wgdash:
-	docker run -v ~/.env:/wgdash/.env -p 5000:5000 wgdash
+	docker run -v ~/.env:/WGDash/.env -p 5000:5000 wgdash
 
 all: build-image run-wgdash

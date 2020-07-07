@@ -9,19 +9,19 @@ RUN apt-get update \
 
 WORKDIR .
 
-RUN mkdir /wgdash
+RUN mkdir /WGDash
 
-WORKDIR /wgdash
+WORKDIR /WGDash
 
-COPY ./requirements.txt /wgdash/requirements.txt
-COPY ./server.py /wgdash/server.py
-COPY ./rss_man.py /wgdash/rss_man.py
-COPY ./run.sh /wgdash/run.sh
-COPY ./weather_man.py /wgdash/weather_man.py
-COPY ./wsgi.py /wgdash/wsgi.py
-COPY ./app.ini /wgdash/app.ini
+COPY ./requirements.txt /WGDash/requirements.txt
+COPY ./server.py /WGDash/server.py
+COPY ./rss_man.py /WGDash/rss_man.py
+COPY ./run.sh /WGDash/run.sh
+COPY ./weather_man.py /WGDash/weather_man.py
+COPY ./wsgi.py /WGDash/wsgi.py
+COPY ./app.ini /WGDash/app.ini
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD /wgdash/run.sh
+CMD /WGDash/run.sh
