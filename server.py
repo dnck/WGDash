@@ -67,19 +67,6 @@ POST add new source
 update new source <-
 """
 
-@app.route("/add-source/", methods=["POST"])
-def add_source():
-    source = request.args.get("url")
-    print(source)
-    url = source #source.get("url")
-    if not url:
-        return {"Missing Data": "need 'url' field in data"}, 400
-    source_reader = rss_man.RssReader()
-    feed = source_reader.get_feed(url)
-    result_set = []
-    for entry in feed["entries"]:
-        result_set.append(entry)
-    return json.dumps(result_set), 200
 
 @app.route("/parse-source/", methods=["POST"])
 def parse_new_source():
@@ -90,19 +77,20 @@ def parse_new_source():
     more_keys = source.get("keys")
 
 
-
-@app.route('/form-example', methods=['GET', 'POST']) #allow both GET and POST requests
+@app.route('/add-source', methods=['GET', 'POST']) #allow both GET and POST requests
 def form_example():
-    if request.method == 'POST':  #this block is only entered when the form is submitted
-        language = request.form.get('language')
-        framework = request.form['framework']
-
-        return '''<h1>The language value is: {}</h1>
-                  <h1>The framework value is: {}</h1>'''.format(language, framework)
+    if request.method == 'POST':
+        # we will do our parsing
+        source_url = request.form.get('source_url')
+        source_reader = rss_man.RssReader()
+        feed = source_reader.get_feed(source_url)
+        result_set = []
+        for entry in feed["entries"]:
+            result_set.append(entry)
+        return json.dumps(result_set)
 
     return '''<form method="POST">
-                  Language: <input type="text" name="language"><br>
-                  Framework: <input type="text" name="framework"><br>
+                  New source url: <input type="text" name="source_url"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
 
