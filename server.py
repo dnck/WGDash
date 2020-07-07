@@ -69,8 +69,9 @@ update new source <-
 
 @APP.route("/add-source/", methods=["POST"])
 def add_source():
-    source = request.get_json()
-    url = source.get("url")
+    source = request.args.get("url")
+    print(source)
+    url = source #source.get("url")
     if not url:
         return {"Missing Data": "need 'url' field in data"}, 400
     source_reader = rss_man.RssReader()
@@ -90,7 +91,20 @@ def parse_new_source():
 
 
 
+@APP.route('/form-example', methods=['GET', 'POST']) #allow both GET and POST requests
+def form_example():
+    if request.method == 'POST':  #this block is only entered when the form is submitted
+        language = request.form.get('language')
+        framework = request.form['framework']
 
+        return '''<h1>The language value is: {}</h1>
+                  <h1>The framework value is: {}</h1>'''.format(language, framework)
+
+    return '''<form method="POST">
+                  Language: <input type="text" name="language"><br>
+                  Framework: <input type="text" name="framework"><br>
+                  <input type="submit" value="Submit"><br>
+              </form>'''
 
 
 
