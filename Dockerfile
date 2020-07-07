@@ -13,7 +13,7 @@ COPY ./run.sh /wgdash/run.sh
 COPY ./weather_man.py /wgdash/weather_man.py
 COPY ./wsgi.py /wgdash/wsgi.py
 COPY ./app.ini /wgdash/app.ini
-COPY ./.env /wgdash/.env
+
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
