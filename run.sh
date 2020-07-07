@@ -1,1 +1,1 @@
-uwsgi --http :5000 --wsgi-file /WGDash/wsgi.py
+uwsgi --http :5000 --wsgi-file $PWD/wsgi.py
