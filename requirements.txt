@@ -1,3 +1,8 @@
-flask
-uWSGI==2.0.17.1
+click==7.1.2
 feedparser==5.2.1
+Flask==1.1.2
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+uWSGI==2.0.19.1
+Werkzeug==1.0.1
