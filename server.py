@@ -17,7 +17,7 @@ import weather_man
 
 from dotenv import load_dotenv
 from flask import Flask, request
-
+from flask_cors import CORS  # This is the magic
 
 SCRIPT_DIRNAME, SCRIPT_FILENAME = os.path.split(os.path.abspath(__file__))
 
@@ -35,6 +35,7 @@ def get_secrets():
 
 # >> The application is a small service.
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/news/", methods=["GET"])
 def get_news():
@@ -51,6 +52,8 @@ def get_news():
     ]:
         reader.parse_feed()
         ALL_READER_RESULTS += reader.result_set
+    #response = flask.jsonify(ALL_READER_RESULTS)
+    #response.headers.add('Access-Control-Allow-Origin', '*')
     return json.dumps(ALL_READER_RESULTS), 200
 
 @app.route("/weather/", methods=["GET"])
@@ -66,7 +69,6 @@ POST add new source
  -> POST fields for new source
 update new source <-
 """
-
 
 @app.route("/parse-source/", methods=["POST"])
 def parse_new_source():
