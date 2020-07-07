@@ -3,6 +3,10 @@ FROM python:3.8.0-slim as base_image
 
 MAINTAINER Dan Cook <cookdj0128@gmail.com>
 
+RUN apt-get update \
+  && apt-get install gcc -y \
+  && apt-get clean
+
 WORKDIR .
 
 RUN mkdir /wgdash
@@ -20,4 +24,4 @@ COPY ./app.ini /wgdash/app.ini
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD ["uwsgi --http :5000 --wsgi-file wsgi.py"]
+CMD /wgdash/run.sh

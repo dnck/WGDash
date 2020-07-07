@@ -10,8 +10,6 @@ build-image:
 	docker build -t wgdash .
 
 run-wgdash:
-	docker run --name wgdash \
-		-v `pwd`/.env:/wgdash/.env \
-		-p 5000:5000
+	docker run -v ~/.env:/wgdash/.env -p 5000:5000 wgdash
 
-all: build-image run-wgdash 
+all: build-image run-wgdash
