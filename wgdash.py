@@ -37,7 +37,7 @@ def get_secrets():
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/show-news-sources/",  methods=["GET"]):
+@app.route("/show-news-sources/",  methods=["GET"])
 def show_sources():
     db = common.load_yaml_as_dict("./database.yaml")
     return json.dumps(db.get("newssources")), 200
@@ -64,9 +64,9 @@ def add_source():
     if request.method == 'POST':
         source_url = request.form.get('source_url')
         db = common.load_yaml_as_dict("./database.yaml")
-        sources = db.get("newssources").get("rss_urls"))
+        sources = db.get("newssources").get("rss_urls")
         try:
-            assert(sources not in source_url)
+            assert(source_url not in sources)
         except AssertionError as err:
             return json.dumps({"Error": "That url is already in our sources."}), 400
         sources += source_url

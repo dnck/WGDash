@@ -34,10 +34,10 @@ class RssReader():
         result = []
         feed = self.get_feed(url)
         for entry in feed["entries"]:
-            result_set.append(
+            result.append(
                 {
                 "title": entry.title.upper(),
-                "summary": self.strip_html(entry.description),
+                "summary": self.sanitize(self.strip_html(entry.description)),
                 "url": entry.link,
                 "pubdate": self.format_published_date(entry.published)
                 }
