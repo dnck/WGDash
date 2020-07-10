@@ -39,7 +39,7 @@ class RssReader():
                 "title": entry.title.upper(),
                 "summary": self.sanitize(self.strip_html(entry.description)),
                 "url": entry.link,
-                "pubdate": self.format_published_date(entry.published)
+                "pubdate": entry.published
                 }
             )
         return result
