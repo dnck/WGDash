@@ -10,15 +10,14 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
   </head>
 <body>
-<!--<script src="./resources/js/pageBreak.js"></script>-->
   <flex-wrapper>
-    <div class="glitch" data-text="Welcome">Welcome</div>
+    <div class="glitch" data-text="Welcome">Welcome to Sanderstrasse 2!</div>
   </flex-wrapper>
   <flex-wrapper>
-    <img src="./resources/images/wolf.png" border=""width="200px" height="250px">
+    <img src="{{ url_for('static',filename='images/wolf.png') }}" border=""width="200px" height="250px">
 </flex-wrapper>
 <flex-wrapper>
-    <p><a href="./index.html">Return</a> | <a href="./about.html">About</a> | <a href="./blog.html">Blog</a>  | <a href="./contact.html">Contact</a>  </p>
+    <p><a href="./index.html">Return</a> | <a href="./news">News</a> | <a href="./movies.html">Movies</a>  | <a href="./weather.html">Weather</a>  </p>
   </flex-wrapper>
 </body>
 </html>
