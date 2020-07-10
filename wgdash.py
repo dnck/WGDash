@@ -18,6 +18,7 @@ import common
 
 from dotenv import load_dotenv
 from flask import Flask, request
+from flask import render_template
 from flask_cors import CORS
 
 SCRIPT_DIRNAME, SCRIPT_FILENAME = os.path.split(os.path.abspath(__file__))
@@ -37,6 +38,10 @@ def get_secrets():
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+    
 @app.route("/show-news-sources/",  methods=["GET"])
 def show_sources():
     db = common.load_yaml_as_dict("./database.yaml")
