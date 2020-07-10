@@ -41,7 +41,7 @@ CORS(app)
 @app.route("/")
 def index():
     return render_template("index.html")
-    
+
 @app.route("/show-news-sources/",  methods=["GET"])
 def show_sources():
     db = common.load_yaml_as_dict("./database.yaml")
@@ -56,7 +56,8 @@ def get_news():
     sources = db.get("newssources").get("rss_urls")
     for url in sources:
         all_reader_results += reader.parse_feed(url)
-    return json.dumps(all_reader_results), 200
+    return render_template("news.html", all_reader_results=all_reader_results)
+    r#eturn json.dumps(all_reader_results), 200
 
 @app.route("/weather/", methods=["GET"])
 def get_weather():
@@ -81,10 +82,10 @@ def add_source():
                   New rss url: <input type="text" name="source_url"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
-
-@app.route("/movies/", methods=["GET"])
-def movies():
-    return json.dumps({"url": "http://berrypi4.local:32400/web/"}), 200
+# 
+# @app.route("/movies/", methods=["GET"])
+# def movies():
+#     return json.dumps({"url": "http://berrypi4.local:32400/web/"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

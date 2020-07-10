@@ -13,15 +13,15 @@
   <flex-wrapper>
     <div class="glitch" data-text="News">News</div>
   </flex-wrapper>
-  <flex-wrapper-list>
+  <flex-wrapper>
     {% for dict_item in all_reader_results %}
           <p>{{dict_item['title']}}<br>
           {{dict_item['pubdate']}}</p>
           <a href="{{dict_item['url']}}">link</a>
     {% endfor %}
-  </flex-wrapper-list>
+  </flex-wrapper>
 <flex-wrapper>
-    <p><a href="./index.html">Return</a> | <a href="./news">News</a> | <a href="http://berrypi4.local:32400/web/">Movies</a>  | <a href="./weather">Weather</a>  </p>
+    <p><a href="./index.html">Return</a> | <a href="./news">News</a> | <a href="./movies">Movies</a>  | <a href="./weather">Weather</a>  </p>
   </flex-wrapper>
 </body>
 </html>

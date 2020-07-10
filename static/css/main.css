@@ -13,6 +13,15 @@ flex-wrapper {
   margin-top: 2%;
   margin-bottom: 2%;
 }
+
+flex-wrapper-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
 .Aligner-item {
   max-width: 80%;
 }
