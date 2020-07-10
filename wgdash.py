@@ -57,7 +57,6 @@ def get_news():
     for url in sources:
         all_reader_results += reader.parse_feed(url)
     return render_template("news.html", all_reader_results=all_reader_results)
-    r#eturn json.dumps(all_reader_results), 200
 
 @app.route("/weather/", methods=["GET"])
 def get_weather():
@@ -82,10 +81,11 @@ def add_source():
                   New rss url: <input type="text" name="source_url"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
-# 
-# @app.route("/movies/", methods=["GET"])
-# def movies():
-#     return json.dumps({"url": "http://berrypi4.local:32400/web/"}), 200
+
+@app.route("/movies/", methods=["GET"])
+def movies():
+    return render_template("movies.html")
+    # return json.dumps({"url": "http://berrypi4.local:32400/web/"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
