@@ -18,7 +18,7 @@ import common
 
 from dotenv import load_dotenv
 from flask import Flask, request
-from flask_cors import CORS  # This is the magic
+from flask_cors import CORS
 
 SCRIPT_DIRNAME, SCRIPT_FILENAME = os.path.split(os.path.abspath(__file__))
 
@@ -34,25 +34,24 @@ def get_secrets():
     weather_key = os.getenv("WEATHER_KEY")
     return {"weather_key": weather_key}
 
-# >> The application is a small service.
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/show-news-sources/",  methods=["GET"]):
+def show_sources():
+    db = common.load_yaml_as_dict("./database.yaml")
+    return json.dumps(db.get("newssources")), 200
+
 @app.route("/news/", methods=["GET"])
 def get_news():
-    """route_endpoint
-
-    >> The service accepts data from a GPS tracker device.
-    >> In the beginning of a track, the service requests a route to be created...
-    """
     app.logger.debug("News feeds requested.")
-    db = common.load_yaml_as_dict("./database.yaml")
-    
-    ALL_READER_RESULTS = []
+    all_reader_results = []
     reader = rss_man.RssReader()
-        reader.parse_feed()
-        ALL_READER_RESULTS += reader.result_set
-    return json.dumps(ALL_READER_RESULTS), 200
+    db = common.load_yaml_as_dict("./database.yaml")
+    sources = db.get("newssources").get("rss_urls")
+    for url in sources:
+        all_reader_results += reader.parse_feed(url)
+    return json.dumps(all_reader_results), 200
 
 @app.route("/weather/", methods=["GET"])
 def get_weather():
@@ -60,39 +59,24 @@ def get_weather():
     wm = weather_man.WeatherMan(key)
     return wm.get_weather(), 200
 
-"""
-POST add new source
- -> present full rss json
- -> select fields
- -> POST fields for new source
-update new source <-
-"""
-
-@app.route("/parse-source/", methods=["POST"])
-def parse_new_source():
-    source = request.get_json()
-    summary_field_key = source.get("summary_key")
-    title_field_key = source.get("title_key")
-    url_field_key = source.get("url_key")
-    more_keys = source.get("keys")
-
-
-@app.route('/add-source/', methods=['GET', 'POST']) #allow both GET and POST requests
-def form_example():
+@app.route('/add-source/', methods=['GET', 'POST'])
+def add_source():
     if request.method == 'POST':
-        # we will do our parsing
         source_url = request.form.get('source_url')
-        source_reader = rss_man.RssReader()
-        feed = source_reader.get_feed(source_url)
-        result_set = []
-        for entry in feed["entries"]:
-            result_set.append(entry)
-        return json.dumps(result_set), 200
-
+        db = common.load_yaml_as_dict("./database.yaml")
+        sources = db.get("newssources").get("rss_urls"))
+        try:
+            assert(sources not in source_url)
+        except AssertionError as err:
+            return json.dumps({"Error": "That url is already in our sources."}), 400
+        sources += source_url
+        common.save_to_yaml(db)
+        return json.dumps({"Success": "Source added."}), 200
     return '''<form method="POST">
-                  New source url: <input type="text" name="source_url"><br>
+                  New rss url: <input type="text" name="source_url"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
