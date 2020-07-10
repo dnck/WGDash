@@ -69,14 +69,17 @@ def add_source():
             assert(source_url not in sources)
         except AssertionError as err:
             return json.dumps({"Error": "That url is already in our sources."}), 400
-        sources += source_url
-        common.save_to_yaml(db)
+        sources.append(source_url)
+        common.save_to_yaml(db, "./database.yaml")
         return json.dumps({"Success": "Source added."}), 200
     return '''<form method="POST">
                   New rss url: <input type="text" name="source_url"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
 
+@app.route("/movies/", methods=["GET"])
+def movies():
+    return json.dumps({"url": "http://berrypi4.local:32400/web/"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
