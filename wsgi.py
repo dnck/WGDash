@@ -3,7 +3,7 @@
 Module for running the production http server
 """
 
-from server import app as application
+from wgdash import app as application
 
 if __name__ == "__main__":
     application.run()

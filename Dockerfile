@@ -14,7 +14,7 @@ RUN mkdir /WGDash
 WORKDIR /WGDash
 
 COPY ./requirements.txt /WGDash/requirements.txt
-COPY ./server.py /WGDash/server.py
+COPY ./wgdash.py /WGDash/wgdash.py
 COPY ./rss_man.py /WGDash/rss_man.py
 COPY ./run.sh /WGDash/run.sh
 COPY ./weather_man.py /WGDash/weather_man.py

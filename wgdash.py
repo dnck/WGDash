@@ -14,6 +14,7 @@ import sys
 
 import rss_man
 import weather_man
+import common
 
 from dotenv import load_dotenv
 from flask import Flask, request
@@ -45,15 +46,12 @@ def get_news():
     >> In the beginning of a track, the service requests a route to be created...
     """
     app.logger.debug("News feeds requested.")
+    db = common.load_yaml_as_dict("./database.yaml")
+    
     ALL_READER_RESULTS = []
-    for reader in [
-        rss_man.WashingtonPostParser(),
-        rss_man.NYTRssParser(),
-    ]:
+    reader = rss_man.RssReader()
         reader.parse_feed()
         ALL_READER_RESULTS += reader.result_set
-    #response = flask.jsonify(ALL_READER_RESULTS)
-    #response.headers.add('Access-Control-Allow-Origin', '*')
     return json.dumps(ALL_READER_RESULTS), 200
 
 @app.route("/weather/", methods=["GET"])
@@ -79,7 +77,7 @@ def parse_new_source():
     more_keys = source.get("keys")
 
 
-@app.route('/add-source', methods=['GET', 'POST']) #allow both GET and POST requests
+@app.route('/add-source/', methods=['GET', 'POST']) #allow both GET and POST requests
 def form_example():
     if request.method == 'POST':
         # we will do our parsing
@@ -89,14 +87,12 @@ def form_example():
         result_set = []
         for entry in feed["entries"]:
             result_set.append(entry)
-        return json.dumps(result_set)
+        return json.dumps(result_set), 200
 
     return '''<form method="POST">
                   New source url: <input type="text" name="source_url"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
-
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
